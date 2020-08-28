@@ -1,3 +1,4 @@
+import api_key from config.js;
 
 var myMap = L.map("all_listing_map", {
   center: [35.5951, -82.5515],
