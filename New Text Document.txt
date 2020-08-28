@@ -1,0 +1,115 @@
+Analysis -
+
+1. Handling null values
+2. Growth analysis
+3. Location analysis - airbnb's concentration in Asheville
+4. Price analysis - Expensive, Reasons for cost(Close to attractions/bigger rentals)
+5. Seasonality analysis
+6. Superhost analysis
+7. Review analysis
+
+
+1. Handling null values - 
+
+Perform an analysis on missing values for interested columns
+Plot a missing values plot
+Replace the null values with zero for numeric columns (as we will we performing statistical analysis)
+
+2.Growth analysis:
+
+A single host can have multiple listings in Airbnb. As the number of listings is an indication of growth,
+we have taken the listings count as such.
+
+Total number of listings per year
+Number of new listing per year
+Unique host count
+
+3.Location analysis - airbnb's concentration in Asheville
+
+Concentration of listings in area
+
+
+
+************************************************************************************
+
+//   var lat_lng = [];
+  
+//   d3.csv('static/data/listings_details.csv').then((data) =>{
+//     console.log(data);
+    
+//     //console.log(lat_lng);
+//     var latitude = data.map(row => row.latitude);
+//     var longitude = data.map(row => row.longitude);
+//     // var lat_lng 
+//     // console.log(latitude);
+//     // console.log(longitude);
+//     // for(var i=0;i<)
+
+    
+
+//     for(var i=0; i<data.length; i++)
+//     {
+//       //latitude[i].push(lat_lng['latitude']);
+
+//       //lat_lng['latitude'].append(latitude[i]);
+
+//       lat_lng.push({
+//         key:   "Latitude",
+//     value: latitude[i],
+//     key:   "Longitude",
+//     value: longitude[i]
+
+
+//       })
+
+
+****************************************************************************************
+
+function createFeature(features)
+{
+  var myMap = L.map("all_listing_map", {
+    center: [35.6010, -82.5540],
+    zoom: 13
+  });
+
+function createFeature(geojsonData){
+
+  var geolayer = L.geojson(geojsonData);
+
+  createMap(geolayer);
+
+
+}
+
+function createMap(geolayer){
+
+  L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/streets-v11",
+    accessToken: api_key
+  }).addTo(myMap);
+}
+
+
+}
+  
+  // Adding a tile layer (the background map image) to our map
+  
+  
+
+
+  
+
+
+d3.csv('static/data/neighbourhoods.geojson').then((data) =>{
+   console.log(data);
+   createFeature(data.features);
+});
+    
+
+
+
+

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Exploratory analysis of Airbnb's in Asheville</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+        integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin="" />
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for ('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for ('datacleaninghtf') }}">Methodology</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for ('airbnblocatorhtf') }}">Airbnb Locator</a>
+                  </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Visualizations
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ url_for ('growthanalysishtf') }}">Growth Analysis</a>
+                        <div class="dropdown-divider"></div>
+                        
+                        <a class="dropdown-item" href="{{ url_for ('priceanalysishtf') }}">Price Analysis</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for ('superhostanalysishtf') }}">Super Host Analysis</a>
+
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p><b>
+                        Overview of the Dataset:
+                    </b></p>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Filename</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <th scope="row">listings.csv</th>
+                            <td>Contains summary information and metrics for listings showing 16 attributes</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">listing_details.csv</th>
+                            <td>Contains detailed Listings data showing 106 atttributes for each of the listings. 
+                                Some of the attributes used in the analysis are price (continuous), longitude (continuous), latitude (continuous), listing_type (categorical), is_superhost (categorical), neighbourhood (categorical), ratings (continuous) among others</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">calendar.csv</th>
+                            <td>Contains detailed availability(details about booking for the next year) by listing. 
+                            It has 7 attributes in total including listing_id (discrete), date (datetime), available (categorical) and price (continuous)</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">reviews.csv</th>
+                            <td>Contains summary Review data and Listing ID that facilitates time based analytics</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">reviews_detail.csv</th>
+                            <td> Contains detailed reviews for listings given by the guests with 6 attributes. Key attributes include date (datetime), listing_id (discrete), reviewer_id (discrete) and comment (textual)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">neighbourhoods.csv</th>
+                            <td>Neighbourhood list sourced from city or open source GIS files.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><b>
+                    Data Cleaning:
+                </b></p>
+                <ul> 
+                    <li>
+                        Drop unwanted columns in each of the file after initial inspection of data.
+                    </li>
+                    <li>
+                        Check the data for null values in each of the file.
+                    </li>
+                    <img src = "static/images/listingdetail.png" alt="listingdetails file" height=200px width=200px>
+                    <li>
+                        Visualize the null values in each of the file.
+                        The following columns have null values - Summary,Description,Host response time,Host response rate,
+                        Host acceptance rate,Review scores(rating,accuracy,cleanliness,communication,location,value),Reviews per month.
+                    </li>
+                    <img src = "static/images/listingdetailnull.png" alt="listingdetails nullvalue file" height=200px width=200px>
+                    <li>
+                        Replace the null values rather than dropping them as I required some columns to be used in statistical analysis.
+                    </li>
+                    <li> 
+                        Data type manipulation for few columns like - 
+                        <ol>
+                            <li>
+                                Price (listing_details.csv, calendar.csv) - The price column contained data in string format with the currency symbol ‘$’ 
+                                and comma separator ‘,’ attached to it. The data type was changed to contain integer values. 
+
+                            </li>
+                            <li>
+                                Date (calendar.csv, listing.csv, reviews.csv),Host_since(listing_details.csv): The date was contained in yyyy-mm-dd format stored as a string.The data
+                                type was changed appropriately.  
+                                
+                            </li>
+                            
+                        </ol>
+                    </li>
+
+                </ul>
+                
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    
+    <!--Dependencies-->
+
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+        integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+        crossorigin=""></script>
+
+    <!-- JQuery, Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <!-- API key -->
+    <script type="text/javascript" src="static/js/config.js"></script>
+
+    <!-- Custom JS Files -->
+    <script type="text/javascript" src="static/js/maplogic.js"></script>
+    <script type="text/javascript" src="static/data/neighbourhoods.geojson"></script>
+
+
+
+
+</body>
+
+</html>

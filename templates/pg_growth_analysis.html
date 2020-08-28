@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Exploratory analysis of Airbnb's in Asheville</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+
+  <!-- Marker Cluster CSS -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+
+  <!--Bootstrap CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('datacleaninghtf') }}">Methodology</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('airbnblocatorhtf') }}">Airbnb Locator</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Visualizations
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for ('growthanalysishtf') }}">Growth Analysis</a>
+            <div class="dropdown-divider"></div>
+            
+            <a class="dropdown-item" href="{{ url_for ('priceanalysishtf') }}">Price Analysis</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for ('superhostanalysishtf') }}">Super Host Analysis</a>
+          </div>
+        </li>
+        
+      </ul>
+      
+    </div>
+  </nav>
+
+  <br>
+
+  <div class="row">
+    <div class="col-md-12"> 
+      <p>
+        The following is an interactive map with all the listings of Airbnb in Asheville. I have clustered all 
+      listings in a particular area and displayed the total number of listing in that cluster. Once you click on the 
+      clusters, the listings will appear with few details like Listing Name,Price,Property Type,Rating.It helps in understanding 
+      rental landscape of Airbnb's in Asheville and how the listings are distributed across neighborhoods. 
+      </p>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12"> 
+      <div id="all_listing_map"> 
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10">
+      <div id="location_analysis">
+      </div>
+    </div>
+    <div class="col-md-2">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      From the bar chart and the interactive map above, we can see that maximum of Airbnb's are concentrated
+      in the neighborhood <b>Bent Creek, followed by, Woodfin and Biltmore.</b> 
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div id="growth_analysis">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <br>
+      <br>
+      <b>The first Airbnb rental was listed in 2009</b> and since then it has increased tremendously.
+        <b>The number of listings as of 2020 is 2387 which is around 112,950% increase.</b>
+        However, it is interesting to note that the number of new listings per year is decreasing gradually since 2017.
+        There is a sharp decline in the count in 2020. As the dataset used in this analysis has data
+        from June 2020 to 2021 - the period where the tourism industry was affected due to COVID-19 pandemic,
+        one could argue that could be reason for drastic the decline in the year 2020. However,
+        going by the trend over the last few years, with the number of new listings declining 
+        gradually, it is safe to say that Airbnb's in Asheville are reaching their point of saturation.     
+    </div>
+  </div>
+      
+
+  <!--Dependencies-->
+
+  
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Leaflet JS -->
+  
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+
+  <!-- JQuery, Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+<!-- API key -->
+<script type="text/javascript" src="static/js/config.js"></script>
+
+<!-- Marker Cluster JS -->
+<script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+
+<!-- Custom JS file -->
+
+<script type="text/javascript" src="static/js/maplogic.js"></script>
+<script type="text/javascript" src="static/data/neighbourhoods.geojson"></script>
+<script type="text/javascript" src="static/js/location.js"></script>
+<script type="text/javascript" src="static/js/growth_analysis.js"></script>
+
+  
+  
+  
+
+</body>
+</html>

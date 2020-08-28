@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Exploratory analysis of Airbnb's in Asheville</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+
+  <!--Bootstrap CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('datacleaninghtf') }}">Methodology</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('airbnblocatorhtf') }}">Airbnb Locator</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Visualizations
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for ('growthanalysishtf') }}">Growth Analysis</a>
+            <div class="dropdown-divider"></div>
+            
+            <a class="dropdown-item" href="{{ url_for ('priceanalysishtf') }}">Price Analysis</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for ('superhostanalysishtf') }}">Super Host Analysis</a>
+
+          </div>
+        </li>
+        
+      </ul>
+      
+    </div>
+  </nav>
+
+  <div class="row">
+
+    <div class="col-md-8">
+        <div id="price">
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <p>
+          <br>
+          It is evident from the graph that there is an increase in the average price of rentals during the weekends.
+          It is higher during the weekends than the remaining days of week. 
+          This makes sense as most people normally tend to travel during the weekends.And as the 
+          demand increases,the price also increases.
+          
+        </p>
+    </div>
+
+  </div>
+
+  <div class="col-md-8">
+    <div id="pricemonth">
+
+    </div>
+</div>
+<div class="col-md-4">
+    <h1> Description of the price month plot</h1>
+</div>
+
+</div>
+
+  <div class="row">
+    <div class="col-md-12"> 
+      <div id="choro_map"> 
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-md-12"> 
+      Based on median price. Candler(28715) and Asheville(28801) are the most expensive.
+      This could be due to the fact that these two areas have better connectivity facilities,
+      are closer to attractions, have scenic views,etc.
+    </div>
+  </div>
+
+  <!--Dependencies-->
+  
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+
+  <!-- Leaflet-Choropleth JavaScript -->
+  <script type="text/javascript" src="static/js/choropleth.js"></script>
+
+  <!-- JQuery, Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+  <!-- API key -->
+  <script type="text/javascript" src="static/js/config.js"></script>
+
+  <!--Custom JS   -->
+  <script type="text/javascript" src="static/data/neighbourhoods.geojson"></script>
+  <script type="text/javascript" src="static/js/price_analysis.js"></script>
+  <script type="text/javascript" src="static/js/choro.js"></script>
+
+
+  
+  
+
+</body>
+</html>

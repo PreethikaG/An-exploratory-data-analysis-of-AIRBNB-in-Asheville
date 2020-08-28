@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Exploratory analysis of Airbnb's in Asheville</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+
+  <!--Bootstrap CSS-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Bootstrap-slider.js CSS file -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/css/bootstrap-slider.min.css">
+
+  <!-- RangeSlider.js CSS file -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.css"> -->
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+
+<body>
+  <!-- Navigation section begins -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar section begins/Contains all navigation -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('datacleaninghtf') }}">Methodology</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for ('airbnblocatorhtf') }}">Airbnb Locator</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Visualizations
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for ('growthanalysishtf') }}">Growth Analysis</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ url_for ('priceanalysishtf') }}">Price Analysis</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for ('superhostanalysishtf') }}">Super Host Analysis</a>
+
+          </div>
+        </li>
+
+      </ul>
+
+    </div>
+  </nav>
+  <!-- Nav bar section ends -->
+
+  <!-- Airbnb locator on map section begins -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        <div id="airbnb_locate">
+
+        </div>
+
+      </div>
+
+      <div class=col-sm-4">
+        <form id="form">
+
+          <h6>
+            <label for="area">Select an area:</label>
+          </h6>
+
+
+
+          <select name="area" id="area">
+            <option value="Woodfin">Woodfin-28801</option>
+            <option value="Biltmore">Biltmore-28803</option>
+            <option value="Woodfin">Woodfin-28804</option>
+            <option value="Azalea">Azalea-28805</option>
+            <option value="Bent Creek">Bent Creek-28806</option>
+            <option value="Alexander">Alexander-28701</option>
+            <option value="Arden ">Arden-28704</option>
+            <option value="Candler">Candler-28715</option>
+            <option value="Fletcher">Fletcher-28732</option>
+            <option value="Leicester">Leicester-28748</option>
+            <option value="Fairview">Fairview-28730</option>
+            <option value="Asheville">Asheville-28814</option>
+            <option value="Asheville">Asheville-28815</option>
+          </select>
+
+          <br><br>
+          <h6>
+            Minimum rating:
+          </h6>
+
+          <b>0</b><input id="ex8" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100"
+            data-slider-step="10" data-slider-value="10" /><b>100</b>
+
+          <br><br>
+          <h6>
+            Maximum price per day:
+          </h6>
+
+          <b>0</b><input id="ex9" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="24999"
+            data-slider-step="100" data-slider-value="100" /><b>24999</b>
+
+          <br><br>
+          <h6>
+            <label for="ptype">Select a property type:</label>
+          </h6>
+          <select name="ptype" id="ptype">
+            <option value="Aparthotel">Aparthotel</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Bed and Breakfast">Bed and Breakfast</option>
+            <option value="Boutique hotel">Boutique hotel</option>
+            <option value="Bungalow">Bungalow</option>
+            <option value="Bus">Bus</option>
+            <option value="Cabin ">Cabin</option>
+            <option value="Camper/RV">Camper/RV</option>
+            <option value="Campsite">Campsite</option>
+            <option value="Castle">Castle</option>
+            <option value="Chalet">Chalet</option>
+            <option value="Condominium">Condominium</option>
+            <option value="Cottage">Cottage</option>
+            <option value="Farmstay">Farmstay</option>
+            <option value="Guest suite">Guest suite</option>
+            <option value="Guest house">Guest house/option>
+            <option value="Hostel">Hostel</option>
+            <option value="House">House</option>
+            <option value="Loft">Loft</option>
+            <option value="Other">Other</option>
+            <option value="Tent">Tent</option>
+            <option value="Tiny house">Tiny house</option>
+            <option value="Town house">Town house</option>
+            <option value="Tree house">Tree house</option>
+            <option value="Yurt">Yurt</option>
+          </select>
+
+          <br><br>
+          <input type="button" id="search_button" value="Submit">
+
+        </form>
+
+
+
+        <!-- <div class="rangeslider-wrap">
+          <input type="range" min="0" max="100" step="10">
+        </div> -->
+
+
+
+
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!--Dependencies-->
+
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Bootstrap-slider.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
+
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
+
+  <!-- JQuery, Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+
+  <!-- Rangeslider.js file -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"></script> -->
+
+
+  <!-- Custom JS file -->
+
+  <script type="text/javascript" src="static/js/config.js"></script>
+  <script type="text/javascript" src="static/js/airbnbloc.js"></script>
+  <script type="text/javascript" src="static/data/neighbourhoods.geojson"></script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
