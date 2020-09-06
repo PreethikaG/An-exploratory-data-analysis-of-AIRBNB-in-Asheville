@@ -1,3 +1,5 @@
+# IMPORT DEPENDENCIES
+
 import os
 from os import environ
 import pandas as pd
@@ -9,29 +11,35 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+import pprint
+
+# env_var = os.environ
+# pprint.pprint(dict(env_var), width = 1)
 
 
-# Create an instance of Flask
+# CREATE A FLASK INSTANCE
 app = Flask(__name__)
 
-# Setup SQLAlchemy with flask
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', '')
+# SETUP FLASK SQLALCHEMY 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 db = SQLAlchemy(app)
 
 # Create engine
-conn_str = "postgres://aipqvzakwuyayg:b2ada3ef206b1daa65925a6a7395232d2781dec6e408447ca427f2d587ac7a8c@ec2-34-236-215-156.compute-1.amazonaws.com:5432/d7967csi9o61pv"
-engine = create_engine(conn_str)
+
+# conn_str = "postgres://aipqvzakwuyayg:b2ada3ef206b1daa65925a6a7395232d2781dec6e408447ca427f2d587ac7a8c@ec2-34-236-215-156.compute-1.amazonaws.com:5432/d7967csi9o61pv"
+engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
+
 
 #  Reflect the database 
 Base = automap_base()
 
 #  Reflect the tables
-Base.prepare(engine, reflect=True)
+Base.prepare(db.engine, reflect=True)
 
 #Save reference to the table
-Listingratingcount = Base.classes.listing_rating_count
+# Listingratingcount = Base.classes.listing_rating_count
 
-Hostdetails = Base.classes.host_details
+Listing_detail_df_new = Base.classes.listing_detail_df_new
 
 
 # Route to render index.html template using data from Mongo
@@ -50,7 +58,7 @@ def growthanalysisjsf():
     session = Session(engine)
     
     # Query the table for columns of interest
-    hostsince = session.query(Hostdetails).all()
+    hostsince = session.query(Listing_detail_df_new).all()
 
     #Close the session
     session.close()
