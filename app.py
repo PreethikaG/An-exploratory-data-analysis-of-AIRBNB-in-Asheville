@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 
 # Create engine
 conn_str = "postgres://zjfbqfjaacmfzh:020bd1ef15a08b5254c2958de00d93361dd7fe2751a492f1fc51c26cad45acaa@ec2-54-235-192-146.compute-1.amazonaws.com:5432/d6njntop4ptmpl"
-engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
+engine = create_engine(conn_str)
 
 #  Reflect the database 
 Base = automap_base()
