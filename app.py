@@ -12,29 +12,17 @@ from sqlalchemy import create_engine
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 import pprint
-from config import Config
-
-# env_var = os.environ
-# pprint.pprint(dict(env_var), width = 1)
-
 
 # CREATE A FLASK INSTANCE
 app = Flask(__name__)
 
 # SETUP FLASK SQLALCHEMY 
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-
-app.config.from_object(Config)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 db = SQLAlchemy(app)
 
-# db = app.config['SQLALCHEMY_DATABASE_URI']
-# engine = create_engine(db)
-
 # Create engine
-
-# conn_str = "postgres://aipqvzakwuyayg:b2ada3ef206b1daa65925a6a7395232d2781dec6e408447ca427f2d587ac7a8c@ec2-34-236-215-156.compute-1.amazonaws.com:5432/d7967csi9o61pv"
+conn_str = "postgres://zjfbqfjaacmfzh:020bd1ef15a08b5254c2958de00d93361dd7fe2751a492f1fc51c26cad45acaa@ec2-54-235-192-146.compute-1.amazonaws.com:5432/d6njntop4ptmpl"
 engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
-
 
 #  Reflect the database 
 Base = automap_base()
@@ -43,7 +31,6 @@ Base = automap_base()
 Base.prepare(db.engine, reflect=True)
 
 #Save reference to the table
-# Listingratingcount = Base.classes.listing_rating_count
 
 Listing_detail_df_new = Base.classes.listing_detail_df_new
 
