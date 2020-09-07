@@ -23,6 +23,7 @@ app = Flask(__name__)
 
 # SETUP FLASK SQLALCHEMY 
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 
