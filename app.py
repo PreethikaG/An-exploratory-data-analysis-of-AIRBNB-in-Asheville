@@ -28,7 +28,7 @@ engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
 Base = automap_base()
 
 #  Reflect the tables
-Base.prepare(db.engine, reflect=True)
+Base.prepare(engine, reflect=True)
 
 #Save reference to the table
 
