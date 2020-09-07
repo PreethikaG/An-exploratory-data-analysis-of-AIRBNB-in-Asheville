@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 import pprint
+from config import Config
 
 # env_var = os.environ
 # pprint.pprint(dict(env_var), width = 1)
@@ -21,20 +22,24 @@ import pprint
 app = Flask(__name__)
 
 # SETUP FLASK SQLALCHEMY 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-db = SQLAlchemy(app)
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+app.config.from_object(Config)
+# db = SQLAlchemy(app)
+
+db = app.config['SQLALCHEMY_DATABASE_URI']
+engine = create_engine(db)
 
 # Create engine
 
 # conn_str = "postgres://aipqvzakwuyayg:b2ada3ef206b1daa65925a6a7395232d2781dec6e408447ca427f2d587ac7a8c@ec2-34-236-215-156.compute-1.amazonaws.com:5432/d7967csi9o61pv"
-engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
+# engine = create_engine(os.environ.get('SQLALCHEMY_DATABASE_URI'))
 
 
 #  Reflect the database 
 Base = automap_base()
 
 #  Reflect the tables
-Base.prepare(db.engine, reflect=True)
+Base.prepare(engine, reflect=True)
 
 #Save reference to the table
 # Listingratingcount = Base.classes.listing_rating_count
