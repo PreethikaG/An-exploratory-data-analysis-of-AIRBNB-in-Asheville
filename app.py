@@ -97,6 +97,12 @@ def airbnblocatorhtf():
     """Return the airbnb locator page"""
     return render_template("airbnblocator.html")
 
+@app.route("/review_analysis_ht")
+def reviewanalysishtf():
+    """Return the review analysis page"""
+    return render_template("reviewanalysis.html")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
