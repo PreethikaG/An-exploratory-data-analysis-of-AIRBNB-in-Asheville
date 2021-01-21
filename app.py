@@ -35,7 +35,7 @@ Base.prepare(engine, reflect=True)
 Listing_detail_df_new = Base.classes.listing_detail_df_new
 
 
-# Route to render index.html template using data from Mongo
+# Route to render index.html template using data 
 @app.route("/")
 def index():
 
